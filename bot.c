@@ -73,6 +73,23 @@ void	showtable(int **table)
 	g_out = fopen("log.txt", "wr");
 }
 
+void	addtotable(int **table, int x, int player)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (table[x][i] != -1)
+	{
+		if (table[x][i])
+		{
+			table[x][i - 1] = player;
+			return ;
+		}
+		i++;
+	}
+	table[x][i - 1] = player;
+}
+
 // 	int	table[][] = {
 //     {0, 0, 0, 0, 0},
 //     {0, 0, 0, 0, 0},
@@ -90,5 +107,9 @@ int	main(void)
 	readstdin();
 	readstdin();
 	while (1)
+	{
 		printf("%d\n", algo(tabl, x));
+		// TODO add notre play au tableau
+		addtotable(tabl, readstdin(), 2);
+	}
 }

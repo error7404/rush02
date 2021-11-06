@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 17:59:26 by jcollon           #+#    #+#             */
-/*   Updated: 2021/11/06 19:17:43 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2021/11/06 19:27:40 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,6 @@ int	scoreplayer(int **table, int player)
 	return (count);
 }
 
-void	addtotable(int **table, int x, int player)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (table[x][i] != -1)
-	{
-		if (table[x][i])
-		{
-			table[x][i - 1] = player;
-			return ;
-		}
-		i++;
-	}
-	table[x][i - 1] = player;
-}
-
 int	algo(int **table, int x)
 {
 	int	max_i;
@@ -105,5 +88,6 @@ int	algo(int **table, int x)
 		if (temp > max_i)
 			max_i = temp;
 	}
+	// TODO dupliquer et tester les nouveau tableau ou cree fonction pour enlever dernier move
 	return (max_i);
 }
