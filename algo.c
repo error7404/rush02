@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 17:59:26 by jcollon           #+#    #+#             */
-/*   Updated: 2021/11/06 19:27:40 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2021/11/07 14:43:49 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 #include <unistd.h>
 #include <time.h>
 
-int	ispossible()
-{
-	return (0);
-}
+void	addtotable(int **table, int x, int player);
+void	removetotable(int **table, int x);
+void	showtable(int **table);
 
 /* dir est la direction ou calculer le score
  * dir = 0: x+
@@ -27,9 +26,10 @@ int	ispossible()
  * dir = 2: y+
  * dir = 3: x+ y-
 */
-int	scoredir(int **table, int player, int x, int y, int dir)
+int	scoredir(int **table, int player, int x, int y, int dir, int max)
 {
 	int	count;
+	int max_score;
 	int	direction[4][2] = {
 		{1, 0},
 		{1, 1},
@@ -37,19 +37,34 @@ int	scoredir(int **table, int player, int x, int y, int dir)
 		{1, -1}
 	};
 
+	max_score = 0;
+	for (size_t i = 0; i < max - 1; i++)
+	{
+		max_score += 1;
+		max_score *= 2;
+	}
 	count = 0;
+	if (!table[x + direction[dir][0]])
+		return (0);
 	while (table[x + direction[dir][0]][y + direction[dir][1]] == player)
 	{
 		if (table[x][y] != player)
+		{
+			if (count >= max_score - 1)
+				return (10000);
 			return (count);
+		}
 		count += 1;
+		count *= 2;
 		x += direction[dir][0];
 		y += direction[dir][1];
 	}
+	if (count >= max_score - 1)
+		return (10000);
 	return (count);
 }
 
-int	scoreplayer(int **table, int player)
+int	scoreplayer(int **table, int player, int max)
 {
 	int	x;
 	int	y;
@@ -57,7 +72,7 @@ int	scoreplayer(int **table, int player)
 
 	x = 0;
 	count = 0;
-	while (table[x])
+	while (table[x][0] != -1)
 	{
 		y = 0;
 		while (table[x][y] != -1)
@@ -66,7 +81,7 @@ int	scoreplayer(int **table, int player)
 			{
 				for (size_t i = 0; i < 4; i++)
 				{
-					count += scoredir(table, player, x, y, i);
+					count += scoredir(table, player, x, y, i, max);
 				}
 			}
 			y++;
@@ -76,18 +91,29 @@ int	scoreplayer(int **table, int player)
 	return (count);
 }
 
-int	algo(int **table, int x)
+int	algo(int **table, int x, int y, int max)
 {
 	int	max_i;
 	int	temp;
+	int	max_temp;
 
 	max_i = -1;
+	max_temp = -1;
 	for (size_t i = 0; i < x; i++)
 	{
-		temp = scoreplayer(table, 1);
-		if (temp > max_i)
-			max_i = temp;
+		if (!table[i][0])
+		{
+			addtotable(table, i, 1);
+			temp = scoreplayer(table, 1, max);
+			removetotable(table, i);
+			if (temp > max_temp)
+			{
+				max_temp = temp;
+				max_i = i;
+			}
+		}
 	}
 	// TODO dupliquer et tester les nouveau tableau ou cree fonction pour enlever dernier move
+	// historique?
 	return (max_i);
 }
