@@ -6,7 +6,7 @@
 #    By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/07 14:54:59 by jcollon           #+#    #+#              #
-#    Updated: 2021/11/07 16:54:59 by jcollon          ###   ########lyon.fr    #
+#    Updated: 2021/11/07 17:36:56 by jcollon          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,10 @@ WORKDIR /app
 COPY . /app
 
 RUN make
+RUN make re
 
 RUN adduser player && chown -R player /app
 
 USER player
 
-CMD ./bot
+CMD [ "bash", "/app/start.sh" ]
