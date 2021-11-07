@@ -18,7 +18,6 @@
 
 void	addtotable(int **table, int x, int player);
 void	removetotable(int **table, int x);
-void	showtable(int **table);
 
 /* dir est la direction ou calculer le score
  * dir = 0: x+
@@ -45,13 +44,13 @@ int	scoredir(int **table, int player, int x, int y, int dir, int max)
 	}
 	count = 0;
 	if (!table[x + direction[dir][0]])
-		return ((player == 1) ? 0:0);
+		return (0);
 	while (table[x + direction[dir][0]][y + direction[dir][1]] == player)
 	{
 		if (table[x][y] != player)
 		{
 			if (count >= max_score - 1)
-				return ((player == 1) ? 1000:1000);
+				return (1000);
 			return (count);
 		}
 		count += 1;
@@ -60,7 +59,7 @@ int	scoredir(int **table, int player, int x, int y, int dir, int max)
 		y += direction[dir][1];
 	}
 	if (count >= max_score - 1)
-		return ((player == 1) ? 1000:1000);
+		return (1000);
 	return (count);
 }
 
@@ -118,13 +117,11 @@ int	algo(int **table, int x, int y, int max)
 				if (!table[j][0])
 				{
 					addtotable(table, j, 2);
-					showtable(table);
 					p1 = scoreplayer(table, 1, max);
 					p2 = scoreplayer(table, 2, max);
 					if (p_p < 0)
 						p_p = p1 - p2;
 					p2 = -p2 * 2;
-					printf("p1= %d, p2= %d\n", p1, p2);
 					removetotable(table, j);
 					if (p1 - p2 > p_p)
 					{
@@ -134,20 +131,16 @@ int	algo(int **table, int x, int y, int max)
 					p_p = p1 - p2;
 				}
 			}
-			printf("max_p1:%d, max_p2:%d\n", max_p1, max_p2);
 			if (max_p2 - max_p1 > max_diff)
 			{
 				max_diff = max_p2 - max_p1;
 				max_i = i;
-				printf("temp:%d, mintemp:%d, maxi:%d, i:%d\n", p1, max_p1, max_i, i);
 			}
 			if (max_p1 - max_p2 > max_diff)
 			{
 				max_diff = max_p1 - max_p2;
 				max_i = i;
-				printf("temp:%d, mintemp:%d, maxi:%d, i:%d\n", p1, max_p1, max_i, i);
 			}
-			printf("max_diff=%d\n", max_diff);
 			removetotable(table, i);
 		}
 	}

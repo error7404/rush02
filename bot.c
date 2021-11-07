@@ -40,41 +40,6 @@ int	**createtable(int x, int y)
 	return (tabl);
 }
 
-// void	showtable(int **table)
-// {
-// 	int	x;
-// 	int	y;
-
-// 	fclose(g_out);
-// 	usleep(5000);
-// 	g_out = fopen("log.txt", "wr");
-// 	y = 0;
-// 	fprintf(g_out, "_______________\n");
-// 	while (table[0][y] != -1)
-// 	{
-// 		x = 0;
-// 		fprintf(g_out, "|");
-// 		while (table[x][0] != -1)
-// 		{
-// 			if (table[x][y] == 0)
-// 				fprintf(g_out, " |");
-// 			else if (table[x][y] == 1)
-// 				fprintf(g_out, "o|");
-// 			else if (table[x][y] == 2)
-// 				fprintf(g_out, "x|");
-// 			else
-// 				fprintf(g_out, "?|");
-// 			x++;
-// 		}
-// 		fprintf(g_out, "\n");
-// 		y++;
-// 	}
-// 	fprintf(g_out, "###############\n");
-// 	fclose(g_out);
-// 	usleep(100);
-// 	g_out = fopen("log.txt", "wr");
-// }
-
 void	addtotable(int **table, int x, int player)
 {
 	unsigned int	i;
