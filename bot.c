@@ -4,8 +4,6 @@
 #include <unistd.h>
 #include <time.h>
 
-// FILE	*g_out;
-
 int	algo(int **table, int x, int y, int max);
 
 unsigned int	readstdin(void)
@@ -13,7 +11,6 @@ unsigned int	readstdin(void)
 	char	test[16];
 
 	fgets(test, 16, stdin);
-	// fprintf(g_out, "%d\n", atoi(test));
 	return ((unsigned int) atoi(test));
 }
 
@@ -49,7 +46,7 @@ int	**createtable(int x, int y)
 // 	int	y;
 
 // 	fclose(g_out);
-// 	usleep(100);
+// 	usleep(5000);
 // 	g_out = fopen("log.txt", "wr");
 // 	y = 0;
 // 	fprintf(g_out, "_______________\n");
@@ -112,16 +109,9 @@ void	removetotable(int **table, int x)
 	table[x][i] = 0;
 }
 
-// 	int	table[][] = {
-//     {0, 0, 0, 0, 0},
-//     {0, 0, 0, 0, 0},
-//     {0, 0, 2, 1, 0}
-// }
 int	main(void)
 {
 	int	move;
-
-	// g_out = fopen("log.txt", "rw");
 	int	x = readstdin();
 	int y = readstdin();
 	int	**tabl = createtable(x, y);
@@ -129,23 +119,17 @@ int	main(void)
 	int	start = readstdin();
 	readstdin();
 	readstdin();
-	// fprintf(g_out, "=========================================================\n");
+	setbuf(stdout, NULL);
 	if (start == 2)
 		addtotable(tabl, readstdin(), 2);
-	printf("%d\n", x / 2);
-	// fprintf(g_out, "%d\n", x / 2);
+	fprintf(stdout, "%d\n", x / 2);
 	addtotable(tabl, x / 2, 1);
-	// showtable(tabl);
 	addtotable(tabl, readstdin(), 2);
-	// showtable(tabl);
 	while (1)
 	{
 		move = algo(tabl, x, y, max);
-		printf("%d\n", move);
-		// fprintf(g_out, "%d\n", move);
+		fprintf(stdout, "%d\n", move);
 		addtotable(tabl, move, 1);
-		// showtable(tabl);
 		addtotable(tabl, readstdin(), 2);
-		// showtable(tabl);
 	}
 }

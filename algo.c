@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 17:59:26 by jcollon           #+#    #+#             */
-/*   Updated: 2021/11/07 14:43:49 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2021/11/07 20:54:51 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,26 @@ int	scoredir(int **table, int player, int x, int y, int dir, int max)
 	for (size_t i = 0; i < max - 1; i++)
 	{
 		max_score += 1;
-		max_score *= 2;
+		max_score *= 3;
 	}
 	count = 0;
 	if (!table[x + direction[dir][0]])
-		return (0);
+		return ((player == 1) ? 0:0);
 	while (table[x + direction[dir][0]][y + direction[dir][1]] == player)
 	{
 		if (table[x][y] != player)
 		{
 			if (count >= max_score - 1)
-				return (10000);
+				return ((player == 1) ? 1000:1000);
 			return (count);
 		}
 		count += 1;
-		count *= 2;
+		count *= 3;
 		x += direction[dir][0];
 		y += direction[dir][1];
 	}
 	if (count >= max_score - 1)
-		return (10000);
+		return ((player == 1) ? 1000:1000);
 	return (count);
 }
 
@@ -94,26 +94,62 @@ int	scoreplayer(int **table, int player, int max)
 int	algo(int **table, int x, int y, int max)
 {
 	int	max_i;
-	int	temp;
-	int	max_temp;
+	int	p1;
+	int	p_p;
+	int	p2;
+	int	p_p2;
+	int	max_p1;
+	int	max_p2;
+	int	max_diff;
 
 	max_i = -1;
-	max_temp = -1;
+	max_p1 = 0;
+	max_p2 = -1;
+	p_p = -1;
+	p_p2 = 1;
+	max_diff = -1000000;
 	for (size_t i = 0; i < x; i++)
 	{
 		if (!table[i][0])
 		{
 			addtotable(table, i, 1);
-			temp = scoreplayer(table, 1, max);
-			removetotable(table, i);
-			if (temp > max_temp)
+			for (size_t j = 0; j < x; j++)
 			{
-				max_temp = temp;
-				max_i = i;
+				if (!table[j][0])
+				{
+					addtotable(table, j, 2);
+					showtable(table);
+					p1 = scoreplayer(table, 1, max);
+					p2 = scoreplayer(table, 2, max);
+					if (p_p < 0)
+						p_p = p1 - p2;
+					p2 = -p2 * 2;
+					printf("p1= %d, p2= %d\n", p1, p2);
+					removetotable(table, j);
+					if (p1 - p2 > p_p)
+					{
+						max_p2 = p2;
+						max_p1 = p1;
+					}
+					p_p = p1 - p2;
+				}
 			}
+			printf("max_p1:%d, max_p2:%d\n", max_p1, max_p2);
+			if (max_p2 - max_p1 > max_diff)
+			{
+				max_diff = max_p2 - max_p1;
+				max_i = i;
+				printf("temp:%d, mintemp:%d, maxi:%d, i:%d\n", p1, max_p1, max_i, i);
+			}
+			if (max_p1 - max_p2 > max_diff)
+			{
+				max_diff = max_p1 - max_p2;
+				max_i = i;
+				printf("temp:%d, mintemp:%d, maxi:%d, i:%d\n", p1, max_p1, max_i, i);
+			}
+			printf("max_diff=%d\n", max_diff);
+			removetotable(table, i);
 		}
 	}
-	// TODO dupliquer et tester les nouveau tableau ou cree fonction pour enlever dernier move
-	// historique?
 	return (max_i);
 }
