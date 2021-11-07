@@ -1,8 +1,20 @@
-#include <strings.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <time.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bot.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/07 23:23:44 by jcollon           #+#    #+#             */
+/*   Updated: 2021/11/07 23:23:44 by jcollon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+# include <strings.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <time.h>
 
 int	algo(int **table, int x, int y, int max);
 

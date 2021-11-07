@@ -90,58 +90,42 @@ int	scoreplayer(int **table, int player, int max)
 	return (count);
 }
 
-int	algo(int **table, int x, int y, int max)
+int algo(int **table, int x, int y, int max)
 {
-	int	max_i;
-	int	p1;
-	int	p_p;
-	int	p2;
-	int	p_p2;
 	int	max_p1;
+	int	p1;
 	int	max_p2;
-	int	max_diff;
+	int	p2;
+	int	max_i;
 
-	max_i = -1;
 	max_p1 = 0;
-	max_p2 = -1;
-	p_p = -1;
-	p_p2 = 1;
-	max_diff = -1000000;
+	p1 = 0;
+	max_p2 = 10000000000;
+	max_i = 0;
 	for (size_t i = 0; i < x; i++)
 	{
 		if (!table[i][0])
 		{
+			p2 = 0;
 			addtotable(table, i, 1);
+			if (p1 = scoreplayer(table, 1, max) > max_p1)
+				max_p1 = p1;
 			for (size_t j = 0; j < x; j++)
 			{
 				if (!table[j][0])
 				{
 					addtotable(table, j, 2);
-					p1 = scoreplayer(table, 1, max);
-					p2 = scoreplayer(table, 2, max);
-					if (p_p < 0)
-						p_p = p1 - p2;
-					p2 = -p2 * 2;
+					p2 += scoreplayer(table, 2, max);
 					removetotable(table, j);
-					if (p1 - p2 > p_p)
-					{
-						max_p2 = p2;
-						max_p1 = p1;
-					}
-					p_p = p1 - p2;
 				}
 			}
-			if (max_p2 - max_p1 > max_diff)
-			{
-				max_diff = max_p2 - max_p1;
-				max_i = i;
-			}
-			if (max_p1 - max_p2 > max_diff)
-			{
-				max_diff = max_p1 - max_p2;
-				max_i = i;
-			}
 			removetotable(table, i);
+			if (p2 < max_p2)
+			{
+				max_p2 = p2;
+				max_i = i;
+			}
+			
 		}
 	}
 	return (max_i);

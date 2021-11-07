@@ -5,3 +5,6 @@
 /player
 /player (1)
 /referee
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.gitignore
